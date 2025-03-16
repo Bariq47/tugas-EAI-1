@@ -36,29 +36,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (!empty($bookData))
+                            @if ($paginatedBooks->count() > 0)
+                            @foreach ($paginatedBooks as $book)
                                 <tr class="text-center align-middle">
-                                    <td>{{ $bookData['judul'] }}</td>
-                                    <td>{{ $bookData['penerbit'] }}</td>
-                                    <td>{{ $bookData['tanggalTerbit'] }}</td>
-                                    <td>{{ is_array($bookData['penulis']) ? implode(', ', $bookData['penulis']) : $bookData['penulis'] }}
-                                    </td>
-                                    <td>{{ is_array($bookData['kategori']) ? implode(', ', $bookData['kategori']) : $bookData['kategori'] }}
-                                    </td>
-                                    <td>{{ $bookData['jumlahHalaman'] }}</td>
+                                    <td>{{ $book['judul'] }}</td>
+                                    <td>{{ $book['penerbit'] }}</td>
+                                    <td>{{ $book['tanggalTerbit'] }}</td>
+                                    <td>{{ $book['penulis'] }}</td>
+                                    <td>{{ $book['kategori'] }}</td>
+                                    <td>{{ $book['jumlahHalaman'] }}</td>
                                     <td>
-                                        @if (isset($bookData['cover']) && !empty($bookData['cover']))
-                                            <img src="{{ $bookData['cover'] }}" alt="Cover Buku" width="100">
+                                        @if (!empty($book['cover']))
+                                            <img src="{{ $book['cover'] }}" alt="Cover Buku" width="100">
                                         @else
                                             No Image
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('deskripsi', ['deskripsi' => $bookData['deskripsi']]) }}">
+                                        <a href="{{ route('deskripsi', ['deskripsi' => $book['deskripsi']]) }}">
                                             Lihat Deskripsi
-                                        </a>>
+                                        </a>
                                     </td>
                                 </tr>
+                                @endforeach
                             @else
                                 <tr>
                                     <td class="text-center">Data tidak ditemukan</td>
@@ -66,7 +66,11 @@
                             @endif
                         </tbody>
                     </table>
-
+                    <div class="d-flex justify-content-center mt-3">
+                        <nav class="mt-4">
+                            {!! $paginatedBooks->links('pagination::bootstrap-5') !!}
+                        </nav>
+                    </div>
                 </div>
 
             </div>
